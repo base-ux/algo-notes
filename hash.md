@@ -124,32 +124,31 @@ _{1, 2, ..., p - 1}_.
 search(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: искомый ключ
+        k: объект, содержащий искомые данные (ключ)
     Выход:
-        элемент с искомым ключом или NIL
+        указатель на объект с искомым ключом или NIL
 
     return list-search(T[h(k)], k)
 ```
 ```
-insert(T, k, x)
+insert(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: ключ для вставляемого элемента
-        x: вставляемый элемент
+        k: вставляемый объект
 
-    list-insert(T[h(k)], x)
+    list-insert(T[h(k)], k)
 ```
 ```
 delete(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: ключ для удаляемого элемента
+        k: удаляемый объект
 
     list := T[h(k)]
     if list != NIL
-        x := list-search(list, k)
-        if x != NIL
-            list-delete(list, x)
+        e := list-search(list, k)
+        if e != NIL
+            list-delete(list, e)
 ```
 
 ## Открытая адресация
@@ -240,33 +239,32 @@ _h2(k)_ должно быть взаимно простым с размером 
 search(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: искомый ключ
+        k: объект, содержащий искомые данные (ключ)
     Выход:
-        элемент с искомым ключом или NIL
+        указатель на объект с искомым ключом или NIL
 
     m := T.length
     i := 0
     repeat
         j := h(k, i)
-        if T[j] != NIL и T[j] != DELETED и T[j].key == k
+        if T[j] != NIL и T[j] != DELETED и compare(T[j], k) == 0
             return T[j]
         i := i + 1
     until T[j] == NIL или i == m
     return NIL
 ```
 ```
-insert(T, k, x)
+insert(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: ключ для вставляемого элемента
-        x: вставляемый элемент
+        k: вставляемый объект
 
     m := T.length
     i := 0
     repeat
         j := h(k, i)
         if T[j] == NIL или T[j] == DELETED
-            T[j] := x
+            T[j] := k
             return
         i := i + 1
     until i == m
@@ -276,13 +274,13 @@ insert(T, k, x)
 delete(T, k)
     Вход:
         T: массив хэш-таблицы
-        k: ключ для удаляемого элемента
+        k: удаляемый объект
 
     m := T.length
     i := 0
     repeat
         j := h(k, i)
-        if T[j] != NIL и T[j] != DELETED и T[j].key == k
+        if T[j] != NIL и T[j] != DELETED и compare(T[j], k) == 0
             T[j] := DELETED
             return
         i := i + 1
