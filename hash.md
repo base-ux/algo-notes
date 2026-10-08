@@ -146,9 +146,7 @@ delete(T, k)
 
     list := T[h(k)]
     if list != NIL
-        e := list-search(list, k)
-        if e != NIL
-            list-delete(list, e)
+        list-delete(list, k)
 ```
 
 ## Открытая адресация
