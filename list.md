@@ -41,7 +41,9 @@ search(L, x)
     e := L.head
     while e != NIL и compare(e.obj, x) != 0
         e := e.next
-    return e
+    if e != NIL
+        return e.obj
+    return NIL
 ```
 
 ### Вставка объекта (insert)
@@ -77,41 +79,44 @@ insert(L, x)
 
 ### Удаление объекта (delete)
 
-В процедуру удаления передаётся указатель на элемент списка.
-Таким образом, для удаления конкретного объекта необходимо предварительно
-найти содержащий его элемент с помощью процедуры `search`.
-
 Для односвязного списка:
 ```
-delete(L, e)
+delete(L, x)
     Вход:
         L: список
-        e: указатель на удаляемый элемент списка
+        x: удаляемый объект
 
-    if L.head == e
-        L.head = e.next
-    else
-        // поиск элемента, предшествующего удаляемому
-        p := L.head
-        while p != NIL и p.next != e
-            p := p.next
-        if p != NIL
+    p := NIL
+    e := L.head
+    // поиск удаляемого элемента и его предшественника
+    while e != NIL и compare(e.obj, x) != 0
+        p := e
+        e := e.next
+    if e != NIL
+        if L.head == e
+            L.head = e.next
+        else
             p.next := e.next
 ```
 
 Для двусвязного списка:
 ```
-delete(L, e)
+delete(L, x)
     Вход:
         L: список
-        e: указатель на удаляемый элемент списка
+        x: удаляемый объект
 
-    if e.prev != NIL
-        e.prev.next := e.next
-    else
-        L.head := e.next
-    if e.next != NIL
-        e.next.prev := e.prev
+    e := L.head
+    // поиск удаляемого элемента
+    while e != NIL и compare(e.obj, x) != 0
+        e := e.next
+    if e != NIL
+        if e.prev != NIL
+            e.prev.next := e.next
+        if e.next != NIL
+            e.next.prev := e.prev
+        if L.head == e
+            L.head := e.next
 ```
 
 ## Альтернативная реализация
@@ -199,10 +204,9 @@ delete(L, x)
         p := e
         e := e.next
     if e != NIL
-        if p != NIL
-            p.next := e.next
         if e == L
             return e.next
+        p.next := e.next
     return L
 ```
 
