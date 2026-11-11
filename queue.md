@@ -130,9 +130,23 @@ peek(Q)
 
 ### Операции
 
+- Проверка на наличие элементов (empty)
 - Вставка элемента (enqueue)
 - Извлечение элемента (dequeue)
 - Просмотр первого элемента (peek)
+
+### Проверка на наличие элементов (empty)
+
+```
+empty(Q)
+    Вход:
+        Q: список очереди
+    Выход:
+        TRUE: если очередь не содержит элементов
+        FALSE: в противном случае
+
+    return list-empty(Q)
+```
 
 ### Вставка элемента (enqueue)
 
@@ -154,7 +168,7 @@ dequeue(Q)
     Выход:
         извлекаемый элемент
 
-    if list-empty(Q)
+    if empty(Q)
         error "underflow: опустошение очереди"
     return list-delete-first(Q)
 ```
@@ -168,7 +182,7 @@ peek(Q)
     Выход:
         первый элемент очереди
 
-    if list-empty(Q)
+    if empty(Q)
         error "underflow: опустошение очереди"
     return list-get-first(Q)
 ```
